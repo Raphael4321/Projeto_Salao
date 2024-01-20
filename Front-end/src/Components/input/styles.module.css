@@ -1,0 +1,48 @@
+.containerInput{
+    display: flex;
+    flex-direction: column;
+}
+
+.input{
+    background-color: #bcbcbc;
+    border: none;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+    padding-right: 1rem;
+    padding: 1.5rem;
+    border-radius: 20px;
+    outline: none;
+    caret-color: #000000;
+    color: #6a7175;
+    font-size: larger;
+}
+
+
+.label{
+    font-weight:  bold;
+    font-size: larger;
+    margin-bottom: 0.5rem;
+    margin-left: 0.8rem;
+}
+
+
+.versionOne{
+    font-weight:  bold;
+    font-size: larger;
+    margin-bottom: 0.5rem;
+    margin-left: 0.8rem;
+}
+
+.versionTwo{
+ text-align: left;
+ font-size: medium;
+ margin-bottom: 0.3rem;
+ font-weight: 100;
+ color:#6A7175
+}
+
+@media (max-width: 780px){
+    .input{
+        width: 250px;
+    }
+}

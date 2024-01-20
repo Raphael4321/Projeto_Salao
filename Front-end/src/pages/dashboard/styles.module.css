@@ -1,0 +1,6 @@
+.containerPage{
+    padding: 1rem;
+    height: 100vh;
+    background-color: #b5c2ca;
+    display: flex;
+}

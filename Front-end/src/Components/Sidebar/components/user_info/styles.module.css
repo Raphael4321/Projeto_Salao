@@ -1,0 +1,39 @@
+.containerUserInfo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.name{
+    text-decoration: none;
+    padding: 0px;
+    margin: 0px;
+    font-weight: 600;
+    font-size: large;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    text-overflow: ellipsis;
+    text-align: center;
+    width: 8rem;
+}
+
+.email{
+    text-decoration: none;
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: 0.5rem;
+    text-overflow: ellipsis;
+    width: 8rem;
+    overflow: hidden;
+    text-align: center;
+}
+
+.sair{
+    text-decoration: none;
+    padding: 0px;
+    margin: 0px;
+    font-weight: 600;
+    font-size: large;
+    cursor: pointer;
+}

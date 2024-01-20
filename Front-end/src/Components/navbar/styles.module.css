@@ -1,0 +1,9 @@
+.navbarWrapper{
+    width: 100%;
+    padding: 1rem;
+    background-color: #d9d9d9;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

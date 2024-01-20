@@ -1,0 +1,31 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.container>label{
+    text-align: left;
+    font-size: medium;
+    margin-bottom: 0.3rem;
+    font-weight: 100;
+    color:#6A7175
+}
+
+
+
+.container>select{
+    border: none;
+    border-radius: 20px;
+    width: 14rem;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+    text-align: left;
+    background-color: #bcbcbc;
+    color: #6a7175;
+    font-weight: 600;
+    cursor: pointer;
+}
