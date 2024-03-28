@@ -1,21 +1,15 @@
 import * as React from "react";
-import Input from "../input";
 import styles from "./styles.module.css";
 import Button from "../button";
 import { useDispatch, useSelector } from "react-redux";
 import { getLayoutDisposition, setLayoutState } from "@/Redux/dataSlice";
 
 export default function Navbar() {
-  const [search, setSearch] = React.useState<string>("");
   const currentLayoutState: any = useSelector(getLayoutDisposition);
   const dispatch = useDispatch();
 
   const handleChangeLayout = (val: boolean) => {
     dispatch(setLayoutState(val));
-  };
-
-  const handleChangeSearch = (str: string) => {
-    setSearch(str);
   };
 
   const handleChangeLayoutCard = () => {
@@ -28,22 +22,7 @@ export default function Navbar() {
 
   return (
     <div className={styles.navbarWrapper}>
-      <Input
-        value={search}
-        alt={"search"}
-        onChange={handleChangeSearch}
-        width={450}
-        placeholder="ex: Search"
-        labelWeight={700}
-      />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          width: "30%",
-        }}
-      >
+      <div className={styles.buttonWrapper}>
         <Button
           onClick={handleChangeLayoutTable}
           backgroundcolor={"#081225"}
@@ -68,6 +47,5 @@ export default function Navbar() {
         </Button>
       </div>
     </div>
-
   );
 }

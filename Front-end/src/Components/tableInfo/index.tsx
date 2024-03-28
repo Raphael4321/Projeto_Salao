@@ -1,14 +1,20 @@
 import * as React from "react";
 import styles from "./styles.module.css";
-import Button from "../button";
-import Modal from "../modal";
-import TableServico from "../table_servico";
 import { useSelector } from "react-redux";
 import { getLayoutDisposition } from "@/Redux/dataSlice";
 import { servicoService } from "@/Modules/service_module/service";
 import { clientService } from "@/Modules/cliente/service";
 import { userService } from "@/Modules/user/service";
-import CardServico from "../CardServico";
+import CardServico from "./servico/CardServico";
+import TableCliente from "./cliente/table_Cliente";
+import CardCliente from "./cliente/CardCliente";
+import ModalCliente from "../modal/modalCliente";
+import ModalFuncionario from "../modal/modalFuncionario";
+import TableFuncionario from "./funcionario/table_funcionario";
+import CardFuncionario from "./funcionario/CardFuncionario";
+import Modal from "../modal/modalServico";
+import TableServico from "./servico/table_servico";
+import RenderContent from "./RenderContent";
 
 export enum typeTable {
   servico = "servico",
@@ -22,15 +28,15 @@ type Props = {
 
 export default function TableInfo(props: Props) {
   const [openModal, setOpenModal] = React.useState<Boolean>(false);
-  const handleAddServico = (isOpen: Boolean) => {
+  const handleAdd = (isOpen: Boolean) => {
     setOpenModal(isOpen);
   };
 
-  const [clientData, setClientData] = React.useState<ClientType[]>([]);
-  const [funcionarioData, setFuncionarioData] = React.useState<UserType[]>([]);
-  const [servicoData, setServicoData] = React.useState<ServicoReturnedType[]>([]);
+  const [clientData, setClientData] = React.useState<any[]>([]);
+  const [funcionarioData, setFuncionarioData] = React.useState<any[]>([]);
+  const [servicoData, setServicoData] = React.useState<any[]>([]);
+  const [atualizar, setAtualizar] = React.useState<boolean>(false);
 
-  // Adicione esta linha para buscar o estado do layout
   const currentLayoutState = useSelector(getLayoutDisposition);
 
   const getService = async () => {
@@ -38,6 +44,7 @@ export default function TableInfo(props: Props) {
 
     if (servico && servico.length > 0) {
       setServicoData(servico);
+      console.log(servico);
     }
   };
 
@@ -69,47 +76,58 @@ export default function TableInfo(props: Props) {
         getFuncionario();
         break;
     }
-  }, [props.type]);
+  }, [atualizar]);
+
+  const AtualizarRender = () => {
+    setAtualizar(!atualizar);
+  };
 
   switch (props.type) {
     case typeTable.servico:
       return (
-        <>
-          {openModal ? <Modal setIsOpen={handleAddServico} /> : null}
-          <div className={styles.wrapper}>
-            <div className={styles.header}>
-              <div>
-                <p className={styles.title}> Serviços cadastrados</p>
-                <p>117 cadastrados</p>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Button
-                  onClick={() => handleAddServico(true)}
-                  backgroundcolor="#081225"
-                  padding={[8, 50, 8, 50]}
-                  borderRadius
-                  color="#B5C2CA"
-                  fontsize={19}
-                  fontWeight={500}
-                >
-                  Cadastrar Serviço
-                </Button>
-              </div>
-            </div>
-            {currentLayoutState ? (<TableServico data={servicoData} />) : (<CardServico data = {servicoData}/>)}
-          </div>
-        </>
+        <RenderContent
+          openModal={openModal}
+          handleAdd={handleAdd}
+          data={servicoData}
+          atualizar={AtualizarRender}
+          currentLayoutState={currentLayoutState}
+          title="Serviços cadastrados"
+          buttonText="Cadastrar Serviço"
+          ModalComponent={Modal}
+          TableComponent={TableServico}
+          CardComponent={CardServico}
+        />
       );
 
     case typeTable.cliente:
-      return <div></div>;
+      return (
+        <RenderContent
+          openModal={openModal}
+          handleAdd={handleAdd}
+          data={clientData}
+          atualizar={AtualizarRender}
+          currentLayoutState={currentLayoutState}
+          title="Clientes cadastrados"
+          buttonText="Cadastrar Cliente"
+          ModalComponent={ModalCliente}
+          TableComponent={TableCliente}
+          CardComponent={CardCliente}
+        />
+      );
     case typeTable.funcionario:
-      return <div></div>;
+      return (
+        <RenderContent
+          openModal={openModal}
+          handleAdd={handleAdd}
+          data={funcionarioData}
+          atualizar={AtualizarRender}
+          currentLayoutState={currentLayoutState}
+          title="Funcionários cadastrados"
+          buttonText="Cadastrar Funcionário"
+          ModalComponent={ModalFuncionario}
+          TableComponent={TableFuncionario}
+          CardComponent={CardFuncionario}
+        />
+      );
   }
 }

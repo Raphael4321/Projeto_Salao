@@ -7,6 +7,7 @@ import { userService } from "@/Modules/user/service";
 type UserType = {
   nome: string;
   email: string;
+  foto: string;
 };
 
 export default function Userinfo() {
@@ -32,9 +33,8 @@ export default function Userinfo() {
 
   return (
     <div className={styles.containerUserInfo}>
-      <UserAvatar photo={""} />
+      <UserAvatar photo={userInfo && userInfo.foto ? userInfo.foto : ""} />
       <p className={styles.name}>
-        {userInfo?.nome}
         {userInfo && userInfo.nome ? userInfo.nome : ""}
       </p>
 

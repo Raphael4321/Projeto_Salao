@@ -20,6 +20,7 @@ export class ClientController {
       await ClientService.getClientById(id);
     return clientById;
   }
+  
   static async updateClient(
     id: string,
     clientData: ICliente

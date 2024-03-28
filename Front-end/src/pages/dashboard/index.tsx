@@ -5,6 +5,7 @@ import Navbar from "@/Components/navbar";
 import { useRouter } from "next/router";
 import TableInfo, { typeTable } from "@/Components/tableInfo";
 import Graphs from "@/Components/graphs";
+import { SidebarType } from "@/Components/Sidebar";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -18,11 +19,11 @@ export default function Dashboard() {
 
   return (
     <div className={Styles.containerPage}>
-      <Sidebar title="Services" />
+      <Sidebar title="Serviços" type={SidebarType.servico} />
       <div style={{ width: "100%" }}>
         <Navbar />
         <TableInfo type={typeTable.servico} />
-        <Graphs/>
+        <Graphs />
       </div>
     </div>
   );

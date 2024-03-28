@@ -11,7 +11,7 @@ enum keyPressed {
   Enter = "Enter",
 }
 
-export default function login() {
+export default function Login() {
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const router = useRouter();
@@ -50,28 +50,20 @@ export default function login() {
   return (
     <div className={styles.mainContainer}>
       <div className={styles.containerLogin}>
-        <h1 className={styles.titleService}>Services</h1>
+        <h1 className={styles.titleService}>Painel de Controle</h1>
         <div className={styles.logo}>
           <Image
-            src={"/logo.jpeg"}
-            alt="logo do login"
+            src={"/logo.png"}
+            alt="Logo do login"
             width={70}
             height={70}
           />
-          <div
-            className={styles.containerInputs}
-            onKeyDown={(key) => {
-              key.stopPropagation();
-              if (key.code === keyPressed.Enter) {
-                loginFunc();
-              }
-            }}
-          >
+          <div className={styles.containerInputs}>
             <Input
               label="Email"
               value={email}
               onChange={gettingValueEmail}
-              alt={"input email"}
+              alt={"Input email"}
               width={450}
               placeholder="ex: fulano@hotmail.com"
             />
@@ -79,24 +71,19 @@ export default function login() {
               label="Senha"
               value={password}
               onChange={gettingValuePassword}
-              alt={"input password"}
+              alt={"Input password"}
               width={450}
               type="password"
               customStyle={{ marginTop: "2rem" }}
             />
           </div>
-          <div
-            className={styles.containerBtnForgetPass}
-            onKeyDown={(key) => {
-              console.log(key.currentTarget);
-            }}
-          >
+          <div className={styles.containerBtnForgetPass}>
             <Button
               onClick={loginFunc}
               backgroundcolor="#081225"
               padding={[13, 75, 13, 75]}
               borderRadius
-              color="B5C2CA"
+              color="#B5C2CA"
               fontsize={19}
               fontWeight={500}
             >

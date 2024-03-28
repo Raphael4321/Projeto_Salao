@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
-import Input from "../input";
+import Input from "../../input";
 import { userService } from "@/Modules/user/service";
-import ComboBox from "../comboBox";
+import ComboBox from "../../comboBox";
 import { clientService } from "@/Modules/cliente/service";
-import Button from "../button";
+import Button from "../../button";
 import styles from "./style.module.css";
 import { servicoService } from "@/Modules/service_module/service";
 
@@ -12,6 +12,8 @@ type Props = {
   setIsOpen: (param: boolean) => void;
   isEditing?: boolean;
   data?: ServicoReturnedType;
+  atualizar?: () => void;
+  AtualizarOnChange?: (val: boolean) => void;
 };
 
 export interface GenericCombo {
@@ -19,25 +21,14 @@ export interface GenericCombo {
   nome: string;
 }
 
-export interface ServicoType {
-  ativo: boolean;
-  cliente: string;
-  funcionario: string;
-  nome: string;
-  status: number;
-  valor: number;
-  descricao: string;
-  temposervico: number;
-}
-
 export default function Modal(props: Props) {
   const [name, setName] = useState<string>("");
   const [valor, setValor] = useState<string>("");
   const [descricao, setDescricao] = useState<string>("");
   const [tempoServico, setTempoServico] = useState<string>("");
+  const [clientes, setClientes] = useState<GenericCombo[]>([]);
   const [funcionarios, setFuncionarios] = useState<GenericCombo[]>([]);
   const [idFuncionarioToSend, setIdFuncionarioToSend] = useState<string>("");
-  const [clientes, setClientes] = useState<GenericCombo[]>([]);
   const [idClienteToSend, setIdClienteToSend] = useState<string>("");
   const mockedDataStatus: GenericCombo[] = [
     { id: "0", nome: "agendado" },
@@ -127,6 +118,7 @@ export default function Modal(props: Props) {
   const submitData = async () => {
     try {
       const mappingData: ServicoType = {
+        _id: "",
         ativo: true,
         cliente: idClienteToSend,
         funcionario: idFuncionarioToSend,
@@ -134,7 +126,7 @@ export default function Modal(props: Props) {
         status: Number(statusId),
         valor: Number(valor),
         descricao: descricao,
-        temposervico: Number(tempoServico),
+        tempoServico: Number(tempoServico),
       };
 
       const dataSaved = await servicoService.createServico(mappingData);
@@ -146,13 +138,18 @@ export default function Modal(props: Props) {
       }
     } catch (error) {
       console.error("Error submitting data:", error);
-      alert("Ocorreu um erro ao salvar o serviço.");
+      if (error instanceof Error) {
+        alert("Ocorreu um erro ao salvar o serviço: " + error.message);
+      } else {
+        alert("Ocorreu um erro ao salvar o serviço.");
+      }
     }
   };
 
   const submitUpdate = async () => {
     try {
       const mappingData: ServicoType = {
+        _id: props.data?._id || "",
         ativo: true,
         cliente: idClienteToSend,
         funcionario: idFuncionarioToSend,
@@ -160,32 +157,55 @@ export default function Modal(props: Props) {
         status: Number(statusId),
         valor: Number(valor),
         descricao: descricao,
-        temposervico: Number(tempoServico),
+        tempoServico: Number(tempoServico),
       };
-
-      const dataSaved = await servicoService.updateServico(props.data._id ,mappingData);
-
-      if (dataSaved) {
-        alert("Servico inserido");
-      } else {
-        alert("Servico não inserido, houve algum erro");
+      if (props.data && props.data._id) {
+        const dataSaved = await servicoService.updateServico(
+          props.data._id,
+          mappingData
+        );
+        if (dataSaved) {
+          alert("Servico atualizado");
+        } else {
+          alert("Servico não inserido, houve algum erro");
+        }
+        UpdateFatherState();
       }
     } catch (error) {
       console.error("Error submitting data:", error);
-      alert("Ocorreu um erro ao salvar o serviço.");
+      if (error instanceof Error) {
+        alert("Ocorreu um erro ao salvar o serviço: " + error.message);
+      } else {
+        alert("Ocorreu um erro ao salvar o serviço.");
+      }
+    }
+  };
+
+  const UpdateFatherState = () => {
+    if (props.atualizar && props.AtualizarOnChange) {
+      props.AtualizarOnChange(!props.atualizar);
     }
   };
 
   return (
     <>
-      <div className={styles.darkBG} onClick={() => props.setIsOpen(false)} />
+      <div
+        className={styles.darkBG}
+        onClick={() => {
+          props.setIsOpen(false);
+          UpdateFatherState();
+        }}
+      />
       <div className={styles.centered}>
         <div className={styles.modal}>
           <div className={styles.modalHeader}>
             <h5 className={styles.heading}>Dialog</h5>
             <button
               className={styles.closeBtn}
-              onClick={() => props.setIsOpen(false)}
+              onClick={() => {
+                UpdateFatherState();
+                props.setIsOpen(false);
+              }}
             >
               <IoMdClose style={{ marginBottom: "-3px" }} />
             </button>
@@ -236,64 +256,49 @@ export default function Modal(props: Props) {
                 data={funcionarios}
                 label={"Funcionários"}
                 stateToGetId={setIdFuncionarioToSend}
-                currentValue={
-                  props.isEditing &&
-                  props.data &&
-                  props.data.funcionario._id != null
-                    ? props.data.funcionario._id
-                    : ""
-                }
+                currentValue={idFuncionarioToSend}
               />
               <ComboBox
                 data={clientes}
                 label="Cliente"
                 stateToGetId={setIdClienteToSend}
-                currentValue={
-                  props.isEditing &&
-                  props.data &&
-                  props.data.cliente._id != null
-                    ? props.data.cliente._id
-                    : ""
-                }
+                currentValue={idClienteToSend}
               />
               <ComboBox
                 data={mockedDataStatus}
                 label="Status"
                 stateToGetId={setStatusId}
-                currentValue={
-                  props.isEditing && props.data && props.data.status != null
-                    ? props.data.status.toString()
-                    : ""
-                }
+                currentValue={idClienteToSend}
               />
             </div>
+            <div className={styles.modalFooter}>
+              <Button
+                onClick={clearData}
+                backgroundcolor={"#d9554f"}
+                padding={[8, 35, 8, 35]}
+                borderRadius
+                color="#B5C2CA"
+                fontsize={19}
+                fontWeight={500}
+              >
+                Clear
+              </Button>
+              <Button
+                onClick={() => {
+                  props.data && props.isEditing ? submitUpdate() : submitData();
+                  UpdateFatherState();
+                }}
+                backgroundcolor={"#081225"}
+                padding={[8, 35, 8, 35]}
+                borderRadius
+                color="#B5C2CA"
+                fontsize={19}
+                fontWeight={500}
+              >
+                Save
+              </Button>
+            </div>
           </div>
-        </div>
-        <div className={styles.modalFooter}>
-          <Button
-            onClick={clearData}
-            backgroundcolor={"#d9554f"}
-            padding={[8, 35, 8, 35]}
-            borderRadius
-            color="#B5C2CA"
-            fontsize={19}
-            fontWeight={500}
-          >
-            Clear
-          </Button>
-          <Button
-            onClick={() =>
-              props.data && props.isEditing ? submitUpdate : submitData()
-            }
-            backgroundcolor={"#081225"}
-            padding={[8, 35, 8, 35]}
-            borderRadius
-            color="#B5C2CA"
-            fontsize={19}
-            fontWeight={500}
-          >
-            Save
-          </Button>
         </div>
       </div>
     </>

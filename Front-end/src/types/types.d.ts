@@ -45,6 +45,7 @@ interface ClientType {
 }
 
 interface ServicoType{
+  _id: string;
   nome: string;
   descricao?: string;
   valor: number;

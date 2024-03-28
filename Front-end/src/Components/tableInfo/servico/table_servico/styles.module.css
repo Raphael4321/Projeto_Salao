@@ -1,0 +1,48 @@
+.tableContainer {
+  margin-top: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tableContainer table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableContainer th,
+.tableContainer td {
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+
+.tableContainer th {
+  background-color: #6ca6c1;
+  color: #fff;
+}
+
+.tableContainer tbody tr:nth-child(odd) {
+  background-color: rgb(198, 187, 187);
+}
+
+.tableContainer tbody tr:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.active,
+.inactive {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.active {
+  background-color: green;
+}
+
+.inactive {
+  background-color: red;
+}

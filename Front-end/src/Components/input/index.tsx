@@ -1,16 +1,15 @@
 import * as React from "react";
 import styles from "./styles.module.css";
-import { type } from "os";
 
 type Props = {
   label?: string;
   placeholder?: string;
-  value: string;
+  value: string | Date;
   type?: React.HTMLInputTypeAttribute;
   alt: string;
   onChange: (currentVal: string) => void;
   labelColor?: string;
-  width?: number;
+  width?: number | string;
   height?: number;
   labelWeight?: number;
   backgroundColor?: string;
@@ -23,6 +22,21 @@ export default function Input(props: Props) {
     width: props.width,
     height: props.height,
     ...props.customStyle,
+  };
+
+  const toBase64 = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    const file = ev.target.files?.[0];
+    if (!file) return "";
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      if (typeof reader.result === "string") {
+        const base64 = reader.result;
+        props.onChange(base64);
+      }
+    };
+
+    reader.readAsDataURL(file);
   };
 
   const decideLabel = (labelVersion: number): string => {
@@ -57,9 +71,19 @@ export default function Input(props: Props) {
       ) : null}
       <input
         type={props.type ? props.type : "text"}
-        value={props.value}
+        value={
+          props.value instanceof Date
+            ? props.value.toISOString().split("T")[0]
+            : props.value
+        }
         alt={props.alt}
-        onChange={(ev) => props.onChange(ev.target.value)}
+        onChange={(ev) => {
+          if (props.type === "file") {
+            toBase64(ev);
+          } else {
+            props.onChange(ev.target.value);
+          }
+        }}
         className={styles.input}
         style={{ backgroundColor: props.backgroundColor }}
         placeholder={props.placeholder ?? ""}

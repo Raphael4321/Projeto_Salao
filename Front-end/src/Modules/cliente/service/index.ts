@@ -1,3 +1,3 @@
-import ClientService from "./client"
+import ClientService from "./client";
 
 export const clientService = new ClientService();

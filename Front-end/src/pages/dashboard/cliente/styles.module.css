@@ -1,0 +1,6 @@
+.containerPage {
+  padding: 1rem;
+  background-color: #b5c2ca;
+  display: flex;
+  max-height: 100%;
+}

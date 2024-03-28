@@ -20,8 +20,8 @@ const servicoSchema = new mongoose.Schema<IServico>({
     valor:{type: Number, required: true},
     tempoServico:{type: Number, required:false},
     ativo:{type: Boolean, required: true},
-    funcionario:{type: mongoose.Types.ObjectId, ref:"funcionario"},
-    cliente:{type: mongoose.Types.ObjectId, ref:"cliente"},
+    funcionario:{type: mongoose.Types.ObjectId, ref:"funcionarios"},
+    cliente:{type: mongoose.Types.ObjectId, ref:"clientes"},
     status:{type: Number, required: true},
 });
 

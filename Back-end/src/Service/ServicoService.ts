@@ -7,17 +7,12 @@ export class ServicoService {
     servicoDTO: IServico
   ): Promise<IServico | undefined> {
     try {
-      const foundfunc = await Funcionario.findById(servicoDTO.funcionario);
-
-      if (foundfunc && foundfunc.senha) foundfunc.senha = "";
-
-      
-
       const foundFuncionario = await Funcionario.findById(
         servicoDTO.funcionario
       );
       const foundCliente = await Cliente.findById(servicoDTO.cliente);
-      const servicoMapped = new Servico({
+
+      const newService: IServico = new Servico({
         nome: servicoDTO.nome,
         descricao: servicoDTO.descricao,
         valor: servicoDTO.valor,
@@ -28,7 +23,9 @@ export class ServicoService {
         status: servicoDTO.status,
       });
 
-      return servicoMapped;
+      const SavedService = await newService.save();
+
+      return SavedService;
     } catch (err) {
       console.log(err);
     }

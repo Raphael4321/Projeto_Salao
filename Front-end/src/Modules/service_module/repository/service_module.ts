@@ -15,7 +15,7 @@ export default class ServiceModule {
       body: JSON.stringify(data),
     };
 
-    const response = await fetch(`http://localhost:3001/servicos`, options);
+    const response = await fetch(`http://localhost:3001/servico/`, options);
 
     if (response.ok) {
       return (await response.json()) as ServicoType;
@@ -39,7 +39,7 @@ export default class ServiceModule {
       mode: "cors",
     };
 
-    const response = await fetch(`http://localhost:3001/servicos`, options);
+    const response = await fetch(`http://localhost:3001/servico/`, options);
 
     if (response.ok) {
       return (await response.json()) as ServicoReturnedType[];
@@ -68,7 +68,7 @@ export default class ServiceModule {
     };
 
     const response = await fetch(
-      `http://localhost:3001/servicos/${idServico}`,
+      `http://localhost:3001/servico/${idServico}`,
       options
     );
 
